@@ -30,25 +30,33 @@
 -->
 
 <body>
-    <div class="entire-content">
+    <div class="jumbotron" class="entire-content">
       <h1>Basic Trivia Game</h1>
-
-
-      <div id="time-left">
-          <h2>Time Left:</h2>
-          00:00
-      </div>
-
-      <div id="question-section">
-        <!-- question text goes here -->
-      </div>
-
-      <div id="answer-section">
-        <!-- answer choices go here -->
-      </div>
-
-      <button type="button" class ="btn btn-primary" id="start-button">START</button>
     </div>
+
+    <div id="main-content">
+
+      <table class="game-panel">
+        <tr></tr>
+        <tr><td>QUESTION:</td></tr>
+        <tr id="question"><td>How do you keep this in the center?</td></tr>    
+        <tr><td>CHOOSE ONE:</td></tr>
+        <tr id="answer-choices"><td>Yes No Maybe</td></tr>
+        <tr><td>CORRECT:</td></tr>
+        <tr id="correct-count"><td>0</td></tr>
+        <tr><td>INCORRECT:</td></tr>
+        <tr id="incorrect-count"><td>0</td></tr>
+        <tr><td>
+          <button type="button" class ="btn btn-primary" id="start-button">START
+          </button>
+        </td></tr>
+      </table>
+
+      <div id=#bottom-section>
+        <h2>Time Left:</h2>
+        <h3 id="time-left">00:00</h3>
+      </div>
+ </div>
 
     <!--
      * Need a row of possible answers to choose from.  Some kind of

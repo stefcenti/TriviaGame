@@ -6,6 +6,8 @@ var trivia = {
   interval: 1,   // interval for updating the time on the screen in seconds
   intervalId: -1, //
   
+  currentQ: 0, // index into the list of questions
+
   incorrectAnswers: 0,
   correctAnswers: 0,
 
@@ -34,11 +36,14 @@ var trivia = {
   },
 
   showQuestion: function() {
-
+    $('#question').html("<td class='#data'>" + this.questions[this.currentQ].question + "</td>");
   },
 
-  // The user started the game, set our timer and interval.
+  // The user started the game, display the first question and set our timer and interval.
   start: function() {
+    // Display the first question
+    this.showQuestion();
+
     // The global timer functions take time in milliseconds.
     // Since we are using seconds for our game, mult. by 1000.
     setTimeout(gameOver, this.gameTime * 1000);
@@ -76,6 +81,10 @@ var trivia = {
     // Set the number of valid and invalid counts in the html
   },
 
+  diplayData: function() {
+    $('#question').innerHTML = "<td>" + this.question[this.currentQ].question + "</td>";
+  },
+
   gameOver: function() {
     alert("Game Over!! Correct Answers: " + this.correctAnswers + 
           ", Wrong Anwsers: " + this.incorrectAnswers);
@@ -84,30 +93,6 @@ var trivia = {
 
 
 /*
-        //Put your timeouts underneath this sentence
-        var fiveSecTimeout = setTimeout(fiveSeconds, 5000);
-        var tenSecTimeout = setTimeout(tenSeconds, 10000);
-        var timeUpTimeout = setTimeout(timeUp, 15000);
-
-      //Step 3:
-        //Fill in the blanks to these functions
-      function fiveSeconds() {
-        //Five seconds have passed, send an alert and state the time remaining in the "time-left" div.
-        alert("10 seconds remaining...");
-        $('#time-left').html("10 seconds remaining...");
-      }
-
-      function tenSeconds() {
-        //Ten seconds have passed, send an alert and state the time remaining in the "time-left" div.
-         alert("5 seconds remaining...");
-        $('#time-left').html("5 seconds remaining...");       
-      }
-
-      function timeUp(){
-        //Fifteen seconds have passed, time is up! Send an alert and have the "time-left" div let the user know.
-        alert("0 seconds remaining...");
-        $('#time-left').html("0 seconds remaining...");       
-
         //The following line will play that audio file that you linked to above.
         audio.play();
       }

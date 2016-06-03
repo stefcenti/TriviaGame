@@ -1,3 +1,24 @@
-.entire-content {
-	.text-align: "center";
+th, tr, h1, h2, #time-left, #start-button {
+	text-align: center;
+}
+
+td, #data {
+	padding-bottom: 50px;
+}
+
+.main-content {
+	position: absolute;
+	width: 100%;
+	height: 500px;
+	overflow: auto;
+}
+
+.game-panel {
+	width: 100%;
+	height: 200px;
+}
+
+.bottom-section {
+	float: bottom;
+	align-items: center;
 }

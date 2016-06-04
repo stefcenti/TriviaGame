@@ -36,21 +36,59 @@
 
     <div id="main-content">
 
-      <table class="game-panel">
-        <tr></tr>
-        <tr><td>QUESTION:</td></tr>
-        <tr id="question"><td>How do you keep this in the center?</td></tr>    
-        <tr><td>CHOOSE ONE:</td></tr>
-        <tr id="answer-choices"><td>Yes No Maybe</td></tr>
-        <tr><td>CORRECT:</td></tr>
-        <tr id="correct-count"><td>0</td></tr>
-        <tr><td>INCORRECT:</td></tr>
-        <tr id="incorrect-count"><td>0</td></tr>
-        <tr><td>
-          <button type="button" class ="btn btn-primary" id="start-button">START
-          </button>
-        </td></tr>
-      </table>
+      <div class="game-panel">
+
+        <div class="row">
+          <div class="col-md-12" id="question">
+            How do you put the question here?
+          </div>
+        </div>
+
+        <!--***
+        * When a question is displayed, the answer-choices 
+        * will be shown
+        **-->
+        <div style="display:none;" class="row" id="answer-section">
+          <div class="col-md-12">
+            <div class="btn-group-vertical" role="group" aria-label="..." id="answer-choices">
+              <button type="button" class="btn" id="choice1"></button>
+              <button type="button" class="btn" id="choice2"></button>
+              <button type="button" class="btn" id="choice3"></button>
+              <button type="button" class="btn" id="choice4"></button>
+            </div>
+          </div>
+        </div>
+
+        <!--
+        * When an answer is selected, the choices will be hidden
+        * and the stats will be shown
+        **-->
+        <div style="display:none;" class="row" id="stats-section">
+          <div class="row">
+            <div class="col-md-12" id="correct-count">
+              Correct Answers: 0
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-12" id="incorrect-count">
+              Incorrect Answers: 0
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-12" id="unanswered-count">
+              Unanswered: 0
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <button type="button" class ="btn btn-primary" id="start-button">START
+            </button>
+          </div>
+        </div>
 
       <div id=#bottom-section>
         <h2>Time Left:</h2>

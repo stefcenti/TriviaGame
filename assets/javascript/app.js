@@ -15,7 +15,7 @@ var trivia = {
 
   questions: [
     {
-      question: 'What color is the sky',
+      question: 'What color is the sky?',
       choices: ['blue', 'red', 'green'],
       answer: 'blue'
     },
@@ -32,15 +32,14 @@ var trivia = {
     this.timeLeft = this.gameTime; // This may not be needed
 
     $("#time-left").text(this.timeConverter(this.gameTime));
-
-  },
-
-  showQuestion: function() {
-    $('#question').html("<td class='#data'>" + this.questions[this.currentQ].question + "</td>");
   },
 
   // The user started the game, display the first question and set our timer and interval.
   start: function() {
+
+    // Hide the start button
+    $("#start-button").hide();
+
     // Display the first question
     this.showQuestion();
 
@@ -50,6 +49,50 @@ var trivia = {
 
     //  Use setInterval to call the timeLeft() method to update the timeLeft element
     this.intervalId = setInterval(setTimeLeft, this.interval * 1000);
+  },
+
+  // This will build the HTML nodes needed to toggle
+  // between the answer-section and stats-section
+  showAnswerSection: function() {
+    // The answer section will have the button group in place with id='answer-choices'
+    // Add 4 buttons for possible answer choices
+    // Build the html for the answer checkox
+   // Hide the stats-section
+    $('#stats-section').hide();
+
+     for (i=0; i < this.questions[this.currentQ].choices.length; i++) {
+      var choice = "#choice" + (i+1);
+      $(choice).html(this.questions[this.currentQ].choices[i]);
+    }
+
+    // Set the answer html to the checkbox
+    $('#answer-section').show();
+  },
+
+  showStatsSection: function() {
+    $('#answer-section').hide();
+
+    $('#correct-count').html("Correct Answers: " + this.correctAnswers);
+    $('#incorrect-count').html("Incorrect Answers: " + this.incorrectAnswers);
+    $('#unanswered-count').html("Unanswered: " + 
+        (this.questions.length - (this.correctAnswers + this.incorrectAnswers)));
+
+    $('#stats-section').show();  // For now, just show it.  Later update w/ stats before showing
+  },
+
+  showQuestion: function() {
+    // Check if the user has completed all the questions
+    if (this.currentQ >= this.questions.length) {
+      this.gameOver();
+      return;
+    }
+
+    // Set the question html to the current question
+    $('#question').html("<div>" + this.questions[this.currentQ].question + "</div>");
+
+    this.showAnswerSection();
+
+    this.currentQ++;
   },
 
   // Takes in time (t) in seconds and converts to
@@ -81,13 +124,11 @@ var trivia = {
     // Set the number of valid and invalid counts in the html
   },
 
-  diplayData: function() {
-    $('#question').innerHTML = "<td>" + this.question[this.currentQ].question + "</td>";
-  },
-
   gameOver: function() {
-    alert("Game Over!! Correct Answers: " + this.correctAnswers + 
-          ", Wrong Anwsers: " + this.incorrectAnswers);
+    // For now, display stats in an alert window
+    $('#question').html("Times Up!!! Here's How You Did:");
+
+    this.showStatsSection();
   }
 }
 
@@ -113,8 +154,12 @@ function gameOver(){
 $(document).ready(function() {
   console.log("Basic Trivia Game");
 
+    // When the user clicks on the start button, initialize the game
+    // and start play.
     $("#start-button").on("click", function() {
       trivia.initGame();
       trivia.start();
     });
+
+    //
 });

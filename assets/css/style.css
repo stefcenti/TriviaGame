@@ -1,4 +1,4 @@
-th, tr, h1, h2, #time-left, #start-button {
+th, tr, h1, h2, h3, h4, h5  #time-left, #start-button {
 	text-align: center;
 }
 
@@ -6,6 +6,10 @@ td, #data {
 	padding-bottom: 50px;
 }
 
+.col-md-12 {
+	text-align: center;
+	padding: 5px;
+}
 .main-content {
 	position: absolute;
 	width: 100%;

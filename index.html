@@ -31,7 +31,7 @@
 
 <body>
     <div class="jumbotron" class="entire-content">
-      <h1>Basic Trivia Game</h1>
+      <h1>Fab 4 Trivia!!</h1>
     </div>
 
     <div id="main-content">
@@ -39,8 +39,8 @@
       <div class="game-panel">
 
         <div class="row">
-          <div class="col-md-12" id="question">
-            How do you put the question here?
+          <div class="col-md-12">
+            <h3 id="question"></h3>
           </div>
         </div>
 
@@ -51,17 +51,17 @@
         <div style="display:none;" class="row" id="answer-section">
           <div class="col-md-12">
             <div class="btn-group-vertical" role="group" aria-label="..." id="answer-choices">
-              <button type="button" class="btn" id="choice1"></button>
-              <button type="button" class="btn" id="choice2"></button>
-              <button type="button" class="btn" id="choice3"></button>
-              <button type="button" class="btn" id="choice4"></button>
+              <button type="button" class="btn choice-btn" id="choice1" value=0></button>
+              <button type="button" class="btn choice-btn" id="choice2" value=1></button>
+              <button type="button" class="btn choice-btn" id="choice3" value=2></button>
+              <button type="button" class="btn choice-btn" id="choice4" value=3></button>
             </div>
           </div>
         </div>
 
         <!--
-        * When an answer is selected, the choices will be hidden
-        * and the stats will be shown
+        * When the time's up or all questions are answered, 
+        * the choices will be hidden and the stats will be shown
         **-->
         <div style="display:none;" class="row" id="stats-section">
           <div class="row">
@@ -87,6 +87,18 @@
           <div class="col-md-12">
             <button type="button" class ="btn btn-primary" id="start-button">START
             </button>
+          </div>
+        </div>
+
+        <!--
+        * When an answer is selected, the choices will be hidden
+        * and the stats will be shown
+        **-->
+        <div style="display:none;" class="row" id="picture-section">
+          <div class="row">
+            <div class="col-md-12" id="album-pic">
+              Album Photo Here
+            </div>
           </div>
         </div>
 

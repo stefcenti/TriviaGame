@@ -31,6 +31,7 @@ var trivia = {
       question: "What date was the last time the Beatles recorded together?",
       choices: ['Aug 1, 1968', 'Sept 15, 1970', 'Sept 13, 1970', 'Aug 20, 1969'],
       answer: 3,
+      image: "beatles2.png",
       answerText: "Aug 20, 1969, they finished 'I Want You (She's So Heavy)'"
     },
     {
@@ -40,42 +41,49 @@ var trivia = {
                 "It was the name of the school that Ringo attended.",
                 "From the name of a street where George lived."],
       answer: 1,
+      image: "beatles3.png",
       answerText: "Strawberry Field was the name of a Salvation Army home near Woolton Liverpool."
     },
     {
       question: "What letters are the Beatles spelling out with their arms on the 'Help!' album?",
       choices: ["J P R G", "H E L P", "N U J V", "P L E H"],
       answer: 2,
-      answerText: "N U J V"
+      image: "beatles.h.jpeg",
+      answerText: "The Beatles are spelling out N U J V using semaphore letters."
     },
     {
       question: "Who was the lead singer when 'The Silver Beatles' did a seven-day tour of Scotland?",
       choices: ["Paul McCartney", "Stuart Sutcliffe", "Johnny Gentle", "John Lennon"],
       answer: 2,
-      answerText: "Johnny Gentle"
+      image: "beatles1.jpeg",
+      answerText: "The Silver Beatles backed up Johnny Gentle."
     },
     {
       question: "What was the first album entirely written by the Beatles?",
       choices: ["Rubber Soul", "With the Beatles", "Help!", "A Hard Day's Night"],
       answer: 3,
-      answerText: "A Hard Day's Night"
+      image: "beatles.hdn.jpeg",
+      answerText: "'A Hard Day's Night' was the first album written entirely by the Beatles."
     },
     {
       question: "How many studio hours did it take for the Beatles to record 'Sgt Pepper's Lonely Hearts Club Band'?",
       choices: ["400", "1000", "100", "250"],
       answer: 0,
+      image: "beatles7.png",
       answerText: "It took 129 days or 400 studio hours to record the Sgt Pepper album."
     },
     {
       question: "Which one of the following people are NOT on the Sgt Pepper album cover?",
       choices: ["Edgar Allen Poe", "Marilyn Monroe", "Marlene Dietrich", "Elvis Presley"],
       answer: 3,
+      image: "beatles4.png",
       answerText: "Elvis Presley was not on the cover."
     },
     {
       question: "Which song on 'With the Beatles' was by George Harrison?",
       choices: ["I Wanna Be Your Man",  "Don't Bother Me", "All I've Got to Do", "You Really Got a Hold on Me"],
       answer: 1,
+      image: "beatles.wtb.jpeg",
       answerText: "Only 7 songs were written by McCartney/Lennon. 'Don't Bother Me' was written by George."
     },
   ],
@@ -112,10 +120,11 @@ var trivia = {
   // The user either just started the game or answered a question.
   // Display the current question and set our timer and interval.
   start: function() {
+
     this.resetTime();
-    
+
     // Hide the start button
-   this.$startButton.hide();
+    this.$startButton.hide();
 
     // Display the current question
     this.showQuestion();
@@ -134,8 +143,9 @@ var trivia = {
     // The answer section will have the button group in place with id='answer-choices'
     // Add 4 buttons for possible answer choices
     // Build the html for the answer checkox
-    // Hide the stats-section
+    // Hide the other sections
     this.$statsSection.hide();
+    this.$pictureSection.hide();
 
     for (i=0; i < this.questions[this.currentQ].choices.length; i++) {
       this.$choices[i].text(this.questions[this.currentQ].choices[i]);
@@ -147,6 +157,7 @@ var trivia = {
 
   showStatsSection: function() {
     this.$answerSection.hide();
+    this.$pictureSection.hide();
 
     this.$correctCount.html("Correct Answers: " + this.correctAnswers);
     this.$incorrectCount.html("Incorrect Answers: " + this.incorrectAnswers);
@@ -169,39 +180,54 @@ var trivia = {
     this.showAnswerSection();
   },
 
+  // This method will either take a string to indicate
+  //    time is up or it will take the choice entered by the user.
   // Stop the timer.
   // Check the answer choice.
-  // If correct, increase correctAnswers,
-  //    show a picture or play a song
-  //    wait a few seconds
-  // If incorrect, increase incorrectAnswers,
-  //    Hide answer choices and Replace question with message
-  //    wait a few seconds
+  // If time is up, 
+  //    replace question with timeout message
+  // If correct, 
+  //    increase correctAnswers,
+  //    replace question with correct answer message
+  // If incorrect, 
+  //    increase incorrectAnswers,
+  //    replace question with incorrect answer message
+  // Show a picture or play a song
+  // Wait a few seconds
   // Reset question and answer choice
   // Restart timer
   checkAnswer: function(choice) {
     this.resetTime();
+    this.$answerSection.hide();
 
     //temp vars for debugging
-    var x = this.questions[0];
-    var y = x.answer;
-    var z = $(choice).val();
+    var q = this.questions[this.currentQ];
+    var a = "<br>" + q.answerText + "</p>";
 
-    if ($(choice).val() == this.questions[this.currentQ].answer) {
-      this.correctAnswers++;
-      this.$question.html("<div>That is Correct!!</div>");
-      this.$pictureSection.show();
-    } else {
-      this.incorrectAnswers++;
-      this.$question.html("<div>Sorry!! Wrong Answer!</div>");
-      this.$pictureSection.show(); // Need to show correct answer!
+    if (choice == "TimedOut") {
+      this.$question.html("<p>Timed Out!!<br>" + a);
     }
+    else if ($(choice).val() == q.answer) {
+      this.correctAnswers++;
+      this.$question.html("<p>That is Correct!!<br>" + a);
+    } 
+    else {
+      this.incorrectAnswers++;
+      this.$question.html("<p>Sorry!! Wrong Answer!<br>" + a);
+    }
+
+    this.$pictureSection.attr("src", "assets/images/" + q.image);
+    this.$pictureSection.show(); // Need to show correct answer!
 
     var self = this;
     setTimeout(function(){    
       self.$pictureSection.hide();
       self.currentQ++;
-      self.start(); // start with the next question
+      if (self.currentQ < self.questions.length) {
+          self.start(); // start with the next question
+      } else {
+        self.gameOver();
+      }
     }, 5000); // pause 5 seconds
  },
 
@@ -227,7 +253,7 @@ var trivia = {
     this.timeLeft -= this.interval;
     this.$timeLeft.text(this.timeConverter(this.timeLeft));
 
-    if (this.timeLeft <= 0) {
+    if (this.timeLeft <= 0 && this.intervalId != -1) {
       clearInterval(this.intervalId);
     }
   },
@@ -236,27 +262,36 @@ var trivia = {
   timeIsUp: function() {
     // Are there any questions left? If so, start with the next question
     // If not, call gameOver()
+
+/*
     this.currentQ++;
 
     if (this.currentQ < this.questions.length) {
-      this.start();
+      this.checkAnswer("TimedOut");
     } else {
       this.gameOver();
     }
+*/
+    this.checkAnswer("TimedOut");
   },
 
   gameOver: function() {
     if (this.intervalId != -1) {
       clearInterval(this.intervalId);
+      this.intervalId = -1;
     }
 
     if (this.timerId != -1) {
       clearTimeout(this.timerId);
+      this.intervalId = -1;
     }
 
     this.$question.html("Game Over!!! Here's How You Did:");
 
     this.showStatsSection();
+
+    this.$startButton.show();
+
   }
 }
 

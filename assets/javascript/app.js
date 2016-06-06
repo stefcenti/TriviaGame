@@ -94,12 +94,14 @@ var trivia = {
     this.currentQ = 0;
     this.incorrectAnswers = 0;
     this.correctAnswers = 0;
+    this.gameTime = 0;
+    this.timeLeft = 0; 
 
     // Reset and Redisplay the timer.
-    this.resetTime();
+    this.showTimer();
   },
 
-  resetTime: function() {
+  showTimer: function() {
 
     if (this.intervalId != -1) {
         clearInterval(this.intervalId);
@@ -121,7 +123,7 @@ var trivia = {
   // Display the current question and set our timer and interval.
   start: function() {
 
-    this.resetTime();
+    this.showTimer();
 
     // Hide the start button
     this.$startButton.hide();
@@ -135,6 +137,19 @@ var trivia = {
 
     //  Use setInterval to call the timeLeft() method to update the timeLeft element
     this.intervalId = setInterval(setTimeLeft, this.interval * 1000);
+  },
+
+  showQuestion: function() {
+    // Check if the user has completed all the questions
+    if (this.currentQ >= this.questions.length) {
+      this.gameOver();
+      return;
+    }
+
+    // Set the question html to the current question
+    this.$question.html("<div>" + this.questions[this.currentQ].question + "</div>");
+
+    this.showAnswerSection();
   },
 
   // This will build the HTML nodes needed to toggle
@@ -167,19 +182,6 @@ var trivia = {
     this.$statsSection.show();  // For now, just show it.
   },
 
-  showQuestion: function() {
-    // Check if the user has completed all the questions
-    if (this.currentQ >= this.questions.length) {
-      this.gameOver();
-      return;
-    }
-
-    // Set the question html to the current question
-    this.$question.html("<div>" + this.questions[this.currentQ].question + "</div>");
-
-    this.showAnswerSection();
-  },
-
   // This method will either take a string to indicate
   //    time is up or it will take the choice entered by the user.
   // Stop the timer.
@@ -197,10 +199,9 @@ var trivia = {
   // Reset question and answer choice
   // Restart timer
   checkAnswer: function(choice) {
-    this.resetTime();
+    this.showTimer();
     this.$answerSection.hide();
 
-    //temp vars for debugging
     var q = this.questions[this.currentQ];
     var a = "<br>" + q.answerText + "</p>";
 
@@ -260,22 +261,16 @@ var trivia = {
 
   
   timeIsUp: function() {
-    // Are there any questions left? If so, start with the next question
-    // If not, call gameOver()
-
-/*
-    this.currentQ++;
-
-    if (this.currentQ < this.questions.length) {
-      this.checkAnswer("TimedOut");
-    } else {
-      this.gameOver();
-    }
-*/
+    // Call checkAnswer with "TimedOut" to merely let the
+    // user know time is up and to display the correct
+    // answer as it would have if the user had selected one. 
     this.checkAnswer("TimedOut");
   },
 
   gameOver: function() {
+    // The game is over. Clear the timer and interval and
+    // update that stats.  Show the Start button so the
+    // game can be played again.
     if (this.intervalId != -1) {
       clearInterval(this.intervalId);
       this.intervalId = -1;
@@ -295,32 +290,27 @@ var trivia = {
   }
 }
 
-
-/*
-        //The following line will play that audio file that you linked to above.
-        audio.play();
-      }
-*/
-
 /****
  * FUNCTIONS
  ****/
 
+// Handler for setInterval()
 function setTimeLeft(){
   trivia.setTimeLeft();
 }
 
+// Handler for setTimeout()
 function timeIsUp() {
   trivia.timeIsUp();
 }
 
+// Hander for setTimeout() in the basic trivia game
+// In that game, when the time ran out, the game was over.
 function gameOver(){
   trivia.gameOver();
 }
 
 $(document).ready(function() {
-  console.log("Basic Trivia Game");
-
     // When the user clicks on the start button, initialize the game
     // and start play.
     $("#start-button").on("click", function() {

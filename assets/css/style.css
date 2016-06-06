@@ -35,8 +35,9 @@ td, #data {
 
 #picture-section {
 	align-items: center;
-	width: 50%;
-	margin-left: 25%;
+	width: 40%;
+	height: 200px;
+	margin-left: 30%;
 }
 
 #bottom-section {
